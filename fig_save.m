@@ -19,6 +19,12 @@ if ~strcmp(pars.directory,pwd)
         fprintf('Requested directory does not exist \n')
         fprintf(['Created directory' pars.directory '\n'])
     end
+else
+    pars.directory = [pwd '/Figures'];
+    if ~exist(pars.directory, 'dir')
+        mkdir(pars.directory)
+        fprintf(['Figure would be saved in: ' pars.directory '\n'])
+    end
 end
 
 fname = [pars.directory '/' pars.fname '.' pars.format];

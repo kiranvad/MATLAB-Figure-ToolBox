@@ -9,6 +9,8 @@ function []=fig_labels(d,varargin)
 %		axtight	:	1 (to activate axis tight,default) 0 (otherwise) 
 
 %%
+global pars
+
 pars.xlabel = 'x';
 pars.ylabel = 'y';
 pars.zlabel = 'z';
@@ -42,3 +44,5 @@ ax.FontSize = 18;
 if pars.axtight
     axis tight
 end
+
+clear global pars

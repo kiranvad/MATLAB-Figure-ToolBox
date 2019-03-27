@@ -49,6 +49,6 @@ else
 end
 h.SizeData = pars.pointsize;
 
-fig_labels(3);
+fig_labels(3,pars);
 grid off;
 clear globar pars
