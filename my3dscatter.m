@@ -1,4 +1,4 @@
-function [h,hcb]=my3dscatter(data,varargin)
+function [varargout]=my3dscatter(data,varargin)
 % function []=my3dscatter(data,varargin)
 % Creates a 3D scatter plot of the data with each column on one axis
 % Inputs:     data: an N-by-3 column matrix
@@ -49,6 +49,9 @@ else
 end
 h.SizeData = pars.pointsize;
 
-fig_labels(3,pars);
+varargout{1}=h;
+varargout{2}=hcb;
+
+fig_labels(3,'xlabel',pars.xlabel,'ylabel',pars.ylabel,'zlabel',pars.zlabel);
 grid off;
 clear globar pars
