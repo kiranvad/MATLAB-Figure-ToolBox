@@ -12,4 +12,13 @@ In simple terms, given a 2D/3D data and its corresponding high dimensional vecto
 
 Use `help manifold_click_traverse` for a sample usage of the script.
 
+
+Radial Visualization
+--------------------
+This package now contains a radial visualization plot (popularly known as RadViz) implementation in MATLAB. The function `plot_radviz` takes a high dimenisonal input in `data` and corresponding colorcode in `colors` and produces a 2D projection onto a radial plane.
+
+This is built using the radviz function from
+> Majumdar, Nivedita. MATLAB Graphics and Data Visualization Cookbook. 
+> Packt Publishing Ltd, 2012
+
 (c) Copyright Kiran Vaddi 2019
