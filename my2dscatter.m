@@ -20,32 +20,61 @@ pars.color = 'b';
 pars.xlabel = 'x';
 pars.ylabel = 'y';
 pars.marker = 'filled';
+pars.legend = 0;
 
 pars = extractpars(varargin,pars);
 
-if ~isempty(pars.colorcode)
-    uniqueLabels = (unique(pars.colorcode))';
-    colors = hsv(length(uniqueLabels));
-    for i=1:length(uniqueLabels)
-        h = scatter(data(pars.colorcode==uniqueLabels(i),1),...
-            data(pars.colorcode==uniqueLabels(i),2),...
-            pars.marker,...
-            'MarkerFacecolor',colors(i,:),'MarkerEdgeColor','none');
-        hold on;
-        h.SizeData = pars.pointsize;
-    end
-    hold off;
-    hcb = colorbar;
-    colormap(hsv(length(unique(pars.colorcode))))
-    hcb.Ticks = linspace(0.05,1,length(uniqueLabels));
-    hcb.TickLabels=cellstr(string(uniqueLabels));
-    hcb.TickLabelInterpreter = 'latex';
-    hcb.FontSize = 15;
+% identify the colorcode type
+if isempty(pars.colorcode)
+    colorcode_type = 1;
+elseif size(pars.colorcode,2)>1
+    colorcode_type = 2;
 else
-    h = scatter(data(:,1),data(:,2),pars.marker);
-    h.MarkerFaceColor=pars.color;
-    hcb=[];
-    h.SizeData = pars.pointsize;
+    colorcode_type = 3;
+end
+
+switch colorcode_type
+    case 3
+        uniqueLabels = (unique(pars.colorcode))';
+        try
+            colors = my_color_palette(length(unique(pars.colorcode)));
+        catch ME
+            if strcmp(ME.identifier,'MATLAB:badsubscript')
+                fprintf('Using hsv... \n')
+                colors = hsv(length(unique(pars.colorcode)));
+            else
+                rethrow(ME)
+            end
+        end
+        for i=1:length(uniqueLabels)
+            h = scatter(data(pars.colorcode==uniqueLabels(i),1),...
+                data(pars.colorcode==uniqueLabels(i),2),...
+                pars.marker,...
+                'MarkerFacecolor',colors(i,:),'MarkerEdgeColor','none');
+            hold on;
+            h.SizeData = pars.pointsize;
+        end
+        hold off;
+        hcb = colorbar;
+        colormap(colors)
+        hcb.Ticks = linspace(0.05,1,length(uniqueLabels));
+        hcb.TickLabels=cellstr(string(uniqueLabels));
+        hcb.TickLabelInterpreter = 'latex';
+        hcb.FontSize = 15;
+        if pars.legend
+            hcb.Visible = 'off';
+            legend(hcb.TickLabels,'location','best',...
+                'Interpreter','latex')
+        end
+    case 1
+        h = scatter(data(:,1),data(:,2),pars.marker);
+        h.MarkerFaceColor=pars.color;
+        hcb=[];
+        h.SizeData = pars.pointsize;
+    case 2
+        h = scatter(data(:,1),data(:,2),[],pars.colorcode,pars.marker);
+        hcb=[];
+        h.SizeData = pars.pointsize;
 
 end
 

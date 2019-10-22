@@ -27,7 +27,7 @@ pars = extractpars(varargin,pars);
 
 if ~isempty(pars.colorcode)
     uniqueLabels = (unique(pars.colorcode))';
-    colors = hsv(length(uniqueLabels));
+    colors=my_color_palette(length(unique(pars.colorcode)));
     for i=1:length(uniqueLabels)
         h = scatter3(data(pars.colorcode==uniqueLabels(i),1),...
             data(pars.colorcode==uniqueLabels(i),2),...
@@ -35,11 +35,10 @@ if ~isempty(pars.colorcode)
             'MarkerFacecolor',colors(i,:),'MarkerEdgeColor','none');
         hold on;
         h.SizeData = pars.pointsize;
-        
     end
     hold off;
     hcb = colorbar;
-    colormap(hsv(length(unique(pars.colorcode))))
+    colormap(colors)
     hcb.Ticks = linspace(0.05,1,length(uniqueLabels));
     hcb.TickLabels=cellstr(string(uniqueLabels));
     hcb.TickLabelInterpreter = 'latex';
