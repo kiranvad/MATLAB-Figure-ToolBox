@@ -22,14 +22,15 @@ pars.xlabel = 'x';
 pars.ylabel = 'y';
 pars.zlabel = 'z';
 pars.marker = 'filled';
-
+pars.legend = 0;
+pars.veccolorcode = 1;
 
 pars = extractpars(varargin,pars);
 
 % identify the colorcode type
 if isempty(pars.colorcode)
     colorcode_type = 1;
-elseif size(pars.colorcode,2)>1
+elseif size(pars.colorcode,2)==3 || pars.veccolorcode
     colorcode_type = 2;
 else
     colorcode_type = 3;
@@ -74,7 +75,7 @@ switch colorcode_type
         h.SizeData = pars.pointsize;
     case 2
         h = scatter3(data(:,1),data(:,2),data(:,3),[],pars.colorcode,pars.marker);
-        hcb=[];
+        hcb=colorbar;
         h.SizeData = pars.pointsize;
 
 end

@@ -21,16 +21,17 @@ pars.xlabel = 'x';
 pars.ylabel = 'y';
 pars.marker = 'filled';
 pars.legend = 0;
+pars.veccolorcode = 0;
 
 pars = extractpars(varargin,pars);
 
 % identify the colorcode type
 if isempty(pars.colorcode)
-    colorcode_type = 1;
-elseif size(pars.colorcode,2)>1
-    colorcode_type = 2;
+    colorcode_type = 1; % Plot with the same color
+elseif size(pars.colorcode,2)>1 || pars.veccolorcode
+    colorcode_type = 2; % Plot the vector as a colorcode using scatter function
 else
-    colorcode_type = 3;
+    colorcode_type = 3; % Plot the each label with one colorcode
 end
 
 switch colorcode_type
@@ -73,7 +74,9 @@ switch colorcode_type
         h.SizeData = pars.pointsize;
     case 2
         h = scatter(data(:,1),data(:,2),[],pars.colorcode,pars.marker);
-        hcb=[];
+        hcb=colorbar;
+        hcb.TickLabelInterpreter = 'latex';
+        hcb.FontSize = 15;
         h.SizeData = pars.pointsize;
 
 end

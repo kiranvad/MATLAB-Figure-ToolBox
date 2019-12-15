@@ -1,0 +1,2 @@
+This folder few external codes used under the originl license.
+I do not own any copyrights for the functions provided in this folder and usage is limited to what is allowed under the original license.

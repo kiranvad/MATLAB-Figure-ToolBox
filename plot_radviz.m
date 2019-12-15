@@ -14,14 +14,24 @@
 
 % (c) Copyright Kiran Vaddi 2019
 
-function []=plot_radviz(data,colors,varargin)
+function [varargout]=plot_radviz(data,varargin)
 pars.showcmap = 0;
+pars.colors = [0 0 1];
+pars.rescale = 1;
 pars = extractpars(varargin,pars);
+
+% determine legend mode
+switch size(pars.colors,1)
+    case 1
+        show_legend = 0;
+    case size(data,1)
+        show_legend = 1;
+end
 
 set(gcf,'units','normalized','position',...
  [.30 .35 .35 .55]);
-for i = 1:size(data,2)
- data(:,i) = data(:,i)./range(data(:,i));
+if pars.rescale
+    data = myNormalizeData(data);
 end
 [ux, uy, R] = radviz(data);
 for i=1:size(R,1)
@@ -32,21 +42,30 @@ text(R(:,1)+0.02,R(:,2)+0.02,Rlabels,'FontSize',20,...
     'Interpreter','latex')
 h1.HandleVisibility='off';
 hold on;
-[~,hcb]=my2dscatter([ux' uy'],'colorcode',colors,'pointsize',75);
-if ~pars.showcmap
+[~,hcb]=my2dscatter([ux' uy'],'colorcode',pars.colors,'pointsize',75);
+if show_legend
     hcb.Visible = 'off';
-    legend_labels = cellstr(string(unique(colors)));
+    legend_labels = cellstr(string(unique(pars.colors)));
     legend(legend_labels','location','best','Interpreter','latex')
     legend('boxoff')
-else
+elseif pars.showcmap
     hcb.Location='southoutside';
+else
+    hcb.Visible = 'off';
 end
 hold on;
 plot(cos((pi/180)*linspace(0,360,361)),...
  sin((pi/180)*linspace(0,360,361)),'k--',...
  'LineWidth',2.0,'HandleVisibility','off');
 hold off;
-fig_noticks(2);
+set(gca,'Visible','off');
+
+
+if nargout>1
+    varargout{1}= ux;
+    varargout{2}= uy;
+    varargout{3}= R;
+end
 
 function [ux,uy,R] = radviz(data)
 

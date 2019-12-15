@@ -46,7 +46,7 @@ switch plottype
         fig_labels(3)
     case 2
         for i = 1:size(Y,1)
-            h = plot3(i*ones(1,size(Y,2)),X(i,:),Y(i,:),'Color',pars.colorcode(i,:),'LineWidth',2.0);
+            h(i) = plot3(i*ones(1,size(Y,2)),X(i,:),Y(i,:),'Color',pars.colorcode(i,:),'LineWidth',2.0);
             hold on;
         end
         hold off;

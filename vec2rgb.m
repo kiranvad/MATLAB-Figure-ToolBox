@@ -4,7 +4,7 @@ function [rgb,cmap]=vec2rgb(Cdata,varargin)
 pars.cmap = 'parula';
 pars = extractpars(varargin,pars);
 
-h = figure('visible','off');
+h = figure;
 cmap = colormap(h,pars.cmap);
 % make it into a index image.
 cmin = min(Cdata(:));

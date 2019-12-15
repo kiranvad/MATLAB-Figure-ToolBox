@@ -16,22 +16,29 @@ pars.ylabel = 'y';
 pars.zlabel = 'z';
 pars.title  =  [];
 pars.axtight = 1;
-
+pars.roundnum = 2;
 pars = extractpars(varargin,pars);
 
+if isa(d,'matlab.graphics.axis.Axes')
+    ax=d;
+else
+    ax = gca;
+end
 
-xlabel(pars.xlabel,'Interpreter','latex','FontSize',20)
-ylabel(pars.ylabel,'Interpreter','latex','FontSize',20)
+
+
+ax.Box = 'off';
+ax.LineWidth = 1.0;
+ax.TickLabelInterpreter='latex';
+ax.XMinorTick = 'off';
+ax.YMinorTick = 'off';
+ax.TickDir = 'out';
+xlabel(ax,pars.xlabel,'Interpreter','latex','FontSize',20)
+ylabel(ax,pars.ylabel,'Interpreter','latex','FontSize',20)
 
 if d==3
-    zlabel(pars.zlabel,'Interpreter','latex','FontSize',20)
+    zlabel(ax,pars.zlabel,'Interpreter','latex','FontSize',20)
 end
-ax=gca;
-ax.Box = 'on';
-ax.LineWidth = 2.0;
-ax.TickLabelInterpreter='latex';
-ax.XMinorTick = 'on';
-ax.YMinorTick = 'on';
 if ~isempty(pars.title)
     t = title(pars.title);
     t.Interpreter = 'latex';
